@@ -1,0 +1,13 @@
+global:
+    measure_interv_mins: 10
+
+inverter:
+    ip: "TODO"
+    username: "TODO"
+    password: "TODO"
+
+mqtt:
+    broker: TODO
+    username: "TODO"
+    password: "TODO"
+
