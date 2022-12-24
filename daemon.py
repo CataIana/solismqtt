@@ -142,12 +142,12 @@ def mqtt_get_client():
     _mqtt_client = client
     return client
 
-def mqtt_publish(topics):
+def mqtt_publish(topics, retain=False):
     global _mqtt_client
     client = mqtt_get_client()
     for topic, msg in topics:
         print(topic, msg, flush=True)
-        result = client.publish(topic, msg)
+        result = client.publish(topic, msg, retain=retain)
         rc = result[0]
         if rc != 0:
             client.loop_stop()
@@ -192,7 +192,7 @@ while True:
             (curr_power_ha_topic  , curr_power_ha_msg), 
             (daily_energy_ha_topic, daily_energy_ha_msg), 
             (total_energy_ha_topic, total_energy_ha_msg)
-        ))
+        ), True)
         break
     except:
         traceback.print_stack()
