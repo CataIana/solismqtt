@@ -21,7 +21,6 @@ SOLIS_FWVER   = 2
 SOLIS_NOW_W   = 3
 SOLIS_DAY_KWH = 4
 SOLIS_TOT_KHW = 5
-SOLIS_BRIDGE_TOPIC = "solismqtt/bridge/state"
 
 print('Hello.', flush=True)
 
@@ -69,7 +68,6 @@ def make_ha_topic(metadata, name, unit):
     assert hd_device_class is not None
     assert hd_state_class is not None
     msg = json.dumps({
-        "availability": [{"topic": SOLIS_BRIDGE_TOPIC}],
         "device":{
             "identifiers": ["solismqtt_" + metadata[SOLIS_SN]],
             "manufacturer": "Solis",
@@ -156,8 +154,6 @@ def mqtt_publish(topics, retain=False):
             raise Exception('Failed to publish to MQTT broker (%s)!' % 
                 str(rc))
 
-mqtt_publish(((SOLIS_BRIDGE_TOPIC, 'online'),))
-
 while True:
     try:
         metadata = read_inverter(True)
@@ -187,7 +183,6 @@ assert curr_power_state_topic == total_energy_state_topic
 
 while True:
     try:
-        mqtt_publish(((SOLIS_BRIDGE_TOPIC, 'online'),))
         mqtt_publish((
             (curr_power_ha_topic  , curr_power_ha_msg), 
             (daily_energy_ha_topic, daily_energy_ha_msg), 
@@ -201,7 +196,6 @@ while True:
 
 while True:
     try:
-        mqtt_publish(((SOLIS_BRIDGE_TOPIC, 'online'),))
         state = read_inverter()
         topic = make_state_topic(curr_power_state_topic, (
             (curr_power_state_name  , state[SOLIS_NOW_W]),
