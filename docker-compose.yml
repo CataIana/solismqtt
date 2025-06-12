@@ -1,18 +1,11 @@
-version: "3"
-
 services:
-
   solismqtt:
-    build: ./src/solismqtt
+    container_name: solismqtt
+    build: .
 #    depends_on:
 #      - mosquitto
 #      - homeassistant
     volumes:
-      - '<your directory>/solismqtt-data/:/data'
-      - '<your directory>/solismqtt-config/:/config'
+      - './configuration.yaml:/app/configuration.yaml'
       - '/etc/localtime:/etc/localtime:ro'
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "50m"
 

@@ -1,0 +1,4 @@
+[packages]
+pyyaml = "*"
+requests = "*"
+paho-mqtt = "*"

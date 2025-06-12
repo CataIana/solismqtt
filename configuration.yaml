@@ -1,13 +1,14 @@
 global:
-    measure_interv_mins: 10
+    interval_seconds: 60
+    uptime_uri: ""
 
 inverter:
-    ip: "TODO"
-    username: "TODO"
-    password: "TODO"
+    ip: ""
+    username: ""
+    password: ""
 
 mqtt:
-    broker: TODO
-    username: "TODO"
-    password: "TODO"
+    broker: ""
+    username: ""
+    password: ""
 
