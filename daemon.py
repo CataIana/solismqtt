@@ -110,8 +110,9 @@ class SolisInverterLogger:
             "unique_id": ha_uid,
             "unit_of_measurement": unit,
             "value_template": "{{ value_json.%s }}" % internal_name,
-            "expire_after": "120",
-            "availability_mode": "any"
+            # Don't mark total/today's production as unavailable
+            "expire_after": "0" if hd_state_class == "total_increasing" else "120",
+            "availability_mode": "latest" if hd_state_class == "total_increasing" else "any",
         })
         return topic, msg
 
