@@ -98,16 +98,20 @@ class SolisInverterLogger:
                 "identifiers": [f"solismqtt_{model}_{metadata['serial_number']}"],
                 "manufacturer": "Solis",
                 "model": model,
+                # Device name in HA
                 "name": f"Solar Inverter",
                 "sw_version": metadata['firmware_version']
             },
             "device_class": hd_device_class,
+            # Sensor/Entity name in HA
             "name": external_name,
             "state_class": hd_state_class,
             "state_topic": state_topic,
             "unique_id": ha_uid,
             "unit_of_measurement": unit,
-            "value_template": "{{ value_json.%s }}" % internal_name
+            "value_template": "{{ value_json.%s }}" % internal_name,
+            "expire_after": "120",
+            "availability_mode": "any"
         })
         return topic, msg
 
