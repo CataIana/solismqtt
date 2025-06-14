@@ -93,7 +93,7 @@ class SolisInverterLogger:
             model = MODEL_LOOKUP.get(metadata["model_number"])
         else:
             model = metadata["model_number"]
-        msg = json.dumps({
+        msg = {
             "device": {
                 "identifiers": [f"solismqtt_{model}_{metadata['serial_number']}"],
                 "manufacturer": "Solis",
@@ -110,11 +110,12 @@ class SolisInverterLogger:
             "unique_id": ha_uid,
             "unit_of_measurement": unit,
             "value_template": "{{ value_json.%s }}" % internal_name,
-            # Don't mark total/today's production as unavailable
-            "expire_after": "0" if hd_state_class == "total_increasing" else "120",
-            "availability_mode": "latest" if hd_state_class == "total_increasing" else "any",
-        })
-        return topic, msg
+        }
+        # Don't mark total/today's production as unavailable
+        if hd_state_class != "total_increasing":
+            msg["expire_after"] = "120"
+            msg["availability_mode"] = "any"
+        return topic, json.dumps(msg)
 
     def read_inverter(self) -> dict:
         logger.debug("Reading...")
